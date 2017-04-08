@@ -10,12 +10,22 @@ import { Component } from '@angular/core';
   	<div *ngIf="showhobbies">
   	<p >My Hobby</p>
   	<ul>
-  		<li *ngFor="let hobby of hobbies">{{hobby}}</li>
+  		<li *ngFor="let hobby of hobbies,let i=index">
+  			{{hobby}} <button (click)="delehobby(i)">x</button>
+  		</li>
   	</ul>
   	</div>
+  	<form (submit)=addHobby(hobby.value)>
+  	<label>Hobby :</label>
+  	<input type="text" #hobby  /><br/>
+  	
+  	</form>
   	<form>
   	<label>Name :</label>
-  	<input type="text" name="name" [(ngModel)]="name" />
+  	<input type="text" name="name" [(ngModel)]="name" /><br/>
+  	<input type="text" name="mobile" [(ngModel)]="mobile" /><br/>
+  	<input type="text" name="street" [(ngModel)]="address.street" /><br/>
+  	<input type="text" name="postalcode" [(ngModel)]="address.postalcode" /><br/>
   	</form>
   	
   `,
@@ -26,6 +36,7 @@ export class MyComponent  {
 	address:address;
 	hobbies:string[];
 	showhobbies:boolean;
+
 
 constructor(){
 	this.name = 'Aktar';
@@ -44,6 +55,12 @@ tooglehobby(){
 		this.showhobbies = true;
 	}
 	
+}
+addHobby(hobby:any){
+	this.hobbies.push(hobby);
+}
+delehobby(i:any){
+	this.hobbies.splice(i,1);
 }
 }
 interface address {

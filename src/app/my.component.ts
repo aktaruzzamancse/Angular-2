@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-
+import { PostService } from './services/posts.services';
 @Component({
   selector: 'user-app',
   template: `
@@ -27,8 +27,14 @@ import { Component } from '@angular/core';
   	<input type="text" name="street" [(ngModel)]="address.street" /><br/>
   	<input type="text" name="postalcode" [(ngModel)]="address.postalcode" /><br/>
   	</form>
+  	<h3>Post</h3>
+  	<div *ngFor="let post of posts">
+  		<h4>{{post.title}}</h4>
+  		<p>{{post.body}}</p>
+  	</div>
   	
   `,
+  providers:[PostService]
 })
 export class MyComponent  { 
 	name:string;
@@ -36,9 +42,10 @@ export class MyComponent  {
 	address:address;
 	hobbies:string[];
 	showhobbies:boolean;
+	posts:Post[];
 
 
-constructor(){
+constructor(private postService:PostService){
 	this.name = 'Aktar';
 	this.mobile = '01911854726';
 	this.address = {
@@ -47,6 +54,9 @@ constructor(){
 	}
 	this.hobbies = ['Islamic Songs','Programming','waz'];
 	this.showhobbies = false;
+	this.postService.getPosts().subscribe(posts=> {
+		this.posts = posts; 
+	});
 }
 tooglehobby(){
 	if(this.showhobbies==true){
@@ -66,4 +76,9 @@ delehobby(i:any){
 interface address {
 	street:string,
 	postalcode:string,
+}
+interface Post {
+	id:number,
+	title:string,
+	body:string,
 }
